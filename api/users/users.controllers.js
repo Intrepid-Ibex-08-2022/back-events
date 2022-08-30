@@ -23,6 +23,7 @@ function getOne(req, res) {
 
 function postUser(req, res) {
     const usr = new User({
+        username: req.body.username,
         email: req.body.email,
         pswd : req.body.pswd
     });
