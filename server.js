@@ -5,6 +5,7 @@ mongoose = require("mongoose"),
 usersRouter = require('./api/users/users.router');
 
 var app = express();
+app.use(cors());
 require('dotenv').config();
 
 
