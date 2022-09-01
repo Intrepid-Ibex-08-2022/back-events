@@ -21,8 +21,8 @@ mongoose.connect(
     }
 );
 
-
-app.listen(URL_DB =>{
-    console.log(`El servidor esta levantado en el puerto ${URL_DB}`)
+const PORT =  process.env.PORT || 3000;
+app.listen(PORT =>{
+    console.log(`El servidor esta levantado en el puerto ${PORT}`)
 });
 
