@@ -2,6 +2,10 @@
   "scripts": {
     "start": "node server.js"
   },
+  "keywords": [
+    "example",
+    "heroku"
+  ],
 
   "dependencies": {
     "cuid": "^2.1.8",
@@ -10,5 +14,9 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.5.3",
     "moongose": "^1.0.0"
+  },
+
+  "engines": {
+    "node": "16.x"
   }
 }

@@ -21,8 +21,7 @@ mongoose.connect(
     }
 );
 
-const PORT =  process.env.PORT || 8080;
-app.listen(PORT =>{
-    console.log(`El servidor esta levantado en el puerto ${PORT}`)
+app.listen(4000 , () =>{
+    console.log(`El servidor esta levantado en el puerto ${process.env.PORT}`)
 });
 
