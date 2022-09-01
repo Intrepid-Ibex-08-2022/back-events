@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "start": "node server.js"
+  },
+
   "dependencies": {
     "cuid": "^2.1.8",
     "dotenv": "^16.0.1",
