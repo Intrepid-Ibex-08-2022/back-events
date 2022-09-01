@@ -22,5 +22,7 @@ mongoose.connect(
 );
 
 
-app.listen(3000);
+app.listen(URL_DB =>{
+    console.log(`El servidor esta levantado en el puerto ${URL_DB}`)
+});
 
