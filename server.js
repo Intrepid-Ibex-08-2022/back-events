@@ -6,12 +6,11 @@ usersRouter = require('./api/users/users.router'),
 cors = require('cors');
 
 var app = express();
-app.use(cors());
+
 require('dotenv').config();
 
-
-app.set('master', config.master);
 app.use(cors());
+app.set('master', config.master);
 app.use(bodyparser.urlencoded({extended : true}));
 app.use(bodyparser.json());
 app.use('/api/users',usersRouter);
