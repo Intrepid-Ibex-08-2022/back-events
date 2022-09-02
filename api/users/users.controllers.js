@@ -12,7 +12,7 @@ function getAll(req, res) {
 }
 
 function getOne(req, res) {
-    User.findById(req.params.id ,(err, found) => {
+    User.findById(req.params.email ,(err, found) => {
         if (!err) {
             res.send(found);
         } else {
