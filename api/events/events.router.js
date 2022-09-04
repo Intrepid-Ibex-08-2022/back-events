@@ -3,7 +3,7 @@ controller = require('./events.controllers');
 
 router.get('/', controller.getAll);
 
-router.get('/email/:id', controller.getOne);
+router.get('/event/:id', controller.getOne);
 
 router.get('/filter', controller.getByQuery);
 
