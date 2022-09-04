@@ -12,7 +12,7 @@ function getAll(req, res) {
 }
 
 function getOne(req, res){
-    Event.findOne(req.body._id,(err, found) => {
+    Event.findOne(req.params._id,(err, found) => {
         if (!err) {
             res.send(found);
         } else {
