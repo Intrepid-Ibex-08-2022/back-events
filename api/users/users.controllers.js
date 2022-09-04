@@ -12,7 +12,7 @@ function getAll(req, res) {
 }
 
 function getOne(req, res) {
-    User.findById(req.params.id ,(err, found) => {
+    User.findOne(req.params.email ,(err, found) => {
         if (!err) {
             res.send(found);
         } else {
@@ -36,7 +36,7 @@ function postUser(req, res) {
 }
 
 function putUser(req, res) {
-    User.findByIdAndUpdate(req.params.id, req.body, {new : true})
+    User.findByIdAndUpdate(req.params.email, req.body, {new : true})
     .then(updated => {
         res.send(updated);
     })
@@ -44,10 +44,20 @@ function putUser(req, res) {
 }
 
 function deleteOne(req, res) {
-    User.findByIdAndRemove(req.params.id)
+    User.findByIdAndRemove(req.params.email)
     .then( del => res.send({}))
     .catch(err => res.estatus(500).send(err))
 }
+
+/* function deleteAll(req, res){
+    User.deleteMany(true, (err, del) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(del);
+        }
+    })
+} */
 
 /* const protecRoutes = express.Router();
 protecRoutes.use((req, res, next) => {
@@ -88,4 +98,4 @@ protecRoutes.use((req, res, next) => {
 }) */
 
 
-module.exports = {deleteOne, putUser, postUser, getOne, getAll} 
+module.exports = {deleteOne , putUser, postUser, getOne, getAll} 

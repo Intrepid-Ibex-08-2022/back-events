@@ -11,4 +11,6 @@ router.put('/:id', controller.putUser);
 
 router.delete('/:id', controller.deleteOne);
 
+//router.delete('/delete', controller.deleteAll);
+
 module.exports = router;
