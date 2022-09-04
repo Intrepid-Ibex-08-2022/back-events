@@ -22,4 +22,15 @@ function getOne(req, res) {
     }).clone().catch(err => console.log("Error occured, " + err));
 }
 
-module.exports = {getOne, getAll} 
+function getByQuery(req, res){
+    Event.find( {place: req.query.place} ,(err, found) => {
+        if (!err) {
+            let eventFounds = found.filter( e => e.tipo_event === req.query.tipo_event);
+            res.send(eventFounds);
+        } else {
+            throw err
+        }
+    }).clone().catch(err => console.log("Error occured, " + err));
+}
+
+module.exports = {getOne, getAll, getByQuery} 
