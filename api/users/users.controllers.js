@@ -12,7 +12,7 @@ function getAll(req, res) {
 }
 
 function getOne(req, res) {
-    User.findOne(req.params.email ,(err, found) => {
+    User.findOne({email : req.params.email} ,(err, found) => {
         if (!err) {
             res.send(found);
         } else {
@@ -36,17 +36,17 @@ function postUser(req, res) {
 }
 
 function putUser(req, res) {
-    User.findByIdAndUpdate(req.params.email, req.body, {new : true})
+    User.findOneAndUpdate(req.params.email , req.body, {new : true})
     .then(updated => {
         res.send(updated);
     })
-    .catch(err => res.estatus(500).send(err))
+    .catch(err => {res.status(500).send(err)})
 }
 
 function deleteOne(req, res) {
-    User.findByIdAndRemove(req.params.email)
+    User.findOneAndDelete({email : req.params.email} )
     .then( del => res.send({}))
-    .catch(err => res.estatus(500).send(err))
+    .catch(err => res.status(500).send(err))
 }
 
 /* function deleteAll(req, res){

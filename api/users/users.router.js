@@ -3,13 +3,13 @@ controller = require('./users.controllers');
 
 router.get('/', controller.getAll);
 
-router.get('/:id', controller.getOne);
+router.get('/:email', controller.getOne);
 
 router.post('/', controller.postUser);
 
-router.put('/:id', controller.putUser);
+router.put('/:email', controller.putUser);
 
-router.delete('/:id', controller.deleteOne);
+router.delete('/:email', controller.deleteOne);
 
 //router.delete('/delete', controller.deleteAll);
 
