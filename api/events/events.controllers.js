@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const Event = require('./events.model');
 
+
 function getAll(req, res) {
     Event.find({}, (err, found) => {
         if (!err){
@@ -47,4 +48,13 @@ function getByQuery(req, res){
     }
 }
 
-module.exports = {getOne, getAll, getByQuery} 
+function postEvent(req, res) {
+    console.log(req.params);
+    console.log(req.body);
+ 
+    res.send('respuesta')
+}
+
+
+
+module.exports = {getOne, getAll, getByQuery, postEvent} 

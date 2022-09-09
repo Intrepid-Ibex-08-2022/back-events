@@ -6,6 +6,7 @@ usersRouter = require('./api/users/users.router'),
 eventsRouter = require('./api/events/events.router'),
 cors = require('cors');
 
+
 var app = express();
 
 require('dotenv').config();
@@ -25,7 +26,7 @@ mongoose.connect(
     }
 );
 
-app.listen(process.env.PORT || 8080 , () =>{
+app.listen(process.env.PORT || 4000 , () =>{
     console.log(`El servidor esta levantado en el puerto ${process.env.PORT}`)
 });
 
