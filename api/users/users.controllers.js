@@ -2,51 +2,55 @@ const jwt = require('jsonwebtoken');
 const User = require('./users.model');
 
 function getAll(req, res) {
-    User.find({}, (err, found) => {
-        if (!err){
-            res.send(found)
-        } else {
-            throw err
-        }
-    }).clone().catch(err => console.log("Error occured, " + err));
+  User.find({}, (err, found) => {
+    if (!err) {
+      res.send(found);
+    } else {
+      throw err;
+    }
+  })
+    .clone()
+    .catch((err) => console.log('Error occured, ' + err));
 }
 
 function getOne(req, res) {
-    User.findOne(req.params.email ,(err, found) => {
-        if (!err) {
-            res.send(found);
-        } else {
-            throw err
-        }
-    }).clone().catch(err => console.log("Error occured, " + err));
+  User.findOne(req.params.email, (err, found) => {
+    if (!err) {
+      res.send(found);
+    } else {
+      throw err;
+    }
+  })
+    .clone()
+    .catch((err) => console.log('Error occured, ' + err));
 }
 
 function postUser(req, res) {
-    const usr = new User({
-        username: req.body.username,
-        email: req.body.email,
-        pswd : req.body.pswd
-    });
-    usr
-        .save()
-        .then(
-            () => res.send(usr) , 
-            (err) => {throw err}
-        );
+  const usr = new User({
+    username: req.body.username,
+    email: req.body.email,
+    pswd: req.body.pswd,
+  });
+  usr.save().then(
+    () => res.send(usr),
+    (err) => {
+      throw err;
+    },
+  );
 }
 
 function putUser(req, res) {
-    User.findByIdAndUpdate(req.params.email, req.body, {new : true})
-    .then(updated => {
-        res.send(updated);
+  User.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    .then((updated) => {
+      res.send(updated);
     })
-    .catch(err => res.estatus(500).send(err))
+    .catch((err) => res.estatus(500).send(err));
 }
 
 function deleteOne(req, res) {
-    User.findByIdAndRemove(req.params.email)
-    .then( del => res.send({}))
-    .catch(err => res.estatus(500).send(err))
+  User.findByIdAndRemove(req.params.email)
+    .then((del) => res.send({}))
+    .catch((err) => res.estatus(500).send(err));
 }
 
 /* function deleteAll(req, res){
@@ -97,5 +101,4 @@ protecRoutes.use((req, res, next) => {
     }
 }) */
 
-
-module.exports = {deleteOne , putUser, postUser, getOne, getAll} 
+module.exports = { deleteOne, putUser, postUser, getOne, getAll };
