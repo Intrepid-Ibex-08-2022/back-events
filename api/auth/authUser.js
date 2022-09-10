@@ -7,8 +7,6 @@ function authUser(req, res) {
         .then( userFound =>  {
             console.log(userFound);
                 let token = jwt.sign({usr :userFound.email, psw : userFound.pswd}, process.env.SECRET);
-                req.token = token;
-                console.log("found!!!!!");
                 res.send({
                     user : userFound,
                     token : token
