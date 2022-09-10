@@ -50,7 +50,8 @@ function getByQuery(req, res){
 
 function postEvent(req, res) {
     console.log(req.params);
-    console.log(req.body);
+    
+    console.log( req.body);
  
     res.send('respuesta')
 }

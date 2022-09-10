@@ -12,6 +12,7 @@ const storage = multer.diskStorage(
         destination: function(res, file, cb){
             cb(null,'./public')
         }
+        
     }
     
 );
