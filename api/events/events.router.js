@@ -3,6 +3,8 @@ controller = require('./events.controllers');
 
 router.get('/', controller.getAll);
 
-router.get('/:id', controller.getOne);
+router.get('/event/:id', controller.getOne);
+
+router.get('/filter', controller.getByQuery);
 
 module.exports = router;

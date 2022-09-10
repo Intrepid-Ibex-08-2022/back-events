@@ -8,7 +8,7 @@ function getAll(req, res) {
         } else {
             throw err
         }
-    }).clone().catch(err => console.log("Error occured, " + err));
+    }).clone().catch(err => res.status(500).send(err));
 }
 
 function getOne(req, res) {
@@ -18,7 +18,7 @@ function getOne(req, res) {
         } else {
             throw err
         }
-    }).clone().catch(err => console.log("Error occured, " + err));
+    }).clone().catch(err => res.status(500).send(err));
 }
 
 function postUser(req, res) {
@@ -31,7 +31,7 @@ function postUser(req, res) {
         .save()
         .then(
             () => res.send(usr) , 
-            (err) => {throw err}
+            (err) => { res.status(500).send(err)}
         );
 }
 
@@ -40,7 +40,7 @@ function putUser(req, res) {
     .then(updated => {
         res.send(updated);
     })
-    .catch(err => {res.status(500).send(err)})
+    .catch(err => res.status(500).send(err))
 }
 
 function deleteOne(req, res) {
@@ -48,54 +48,6 @@ function deleteOne(req, res) {
     .then( del => res.send({}))
     .catch(err => res.status(500).send(err))
 }
-
-/* function deleteAll(req, res){
-    User.deleteMany(true, (err, del) => {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(del);
-        }
-    })
-} */
-
-/* const protecRoutes = express.Router();
-protecRoutes.use((req, res, next) => {
-    const token = req.header['access-token'];
-    if (token) {
-        jwt.verify(token , router.get('master'),
-        (err, decoded) => {
-            if (err) {
-                return res.json({mensaje : 'token invalido'});
-            } else {
-                req.decoded = decoded;
-                next();
-            }
-        });
-    } else {
-        res.send({
-            mensaje : 'token no proveida'
-        });
-    }
-})
- */
-/* router.post('/auth', (req,res) => {
-    if (req.body.mail === "qwerty" && req.body.psw === "123456") {
-        payload = {
-            check : "true"
-        }
-        const token = jwt.sign(payload,router.get('master'), {expiresIn : 1440});
-        res.json({
-            mensaje : "autentificacion correcta",
-            token : token
-        });
-    }else {
-        res.json({
-            mensaje : "usuario o cntraseña incorrectos",
-            token : null
-        })
-    }
-}) */
 
 
 module.exports = {deleteOne , putUser, postUser, getOne, getAll} 
