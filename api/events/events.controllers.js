@@ -1,5 +1,6 @@
-const jwt = require('jsonwebtoken');
-const Event = require('./events.model');
+const jwt = require('jsonwebtoken'),
+ Event = require('./events.model'),
+ User = require('../users/users.model');
 
 function getAll(req, res) {
     Event.find({}, (err, found) => {
@@ -53,4 +54,16 @@ function postEvent(req, res) {
     .catch(err => res.status(500).send('error: ' + err))
 }
 
-module.exports = {getOne, getAll, getByQuery, postEvent} 
+function postPrefered(req, res){
+    console.log(req.user.usr);
+    User.findOne({email : req.user.usr})
+    .then(user => {
+        user.favorites.push(req.params.id);
+        console.log(user);
+        user.save()
+        .then(() => res.send(user));
+    })
+    .catch(err => console.log(err))
+}
+
+module.exports = {getOne, getAll, getByQuery, postEvent, postPrefered} 
