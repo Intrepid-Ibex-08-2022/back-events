@@ -7,4 +7,6 @@ router.get('/event/:id', controller.getOne);
 
 router.get('/filter', controller.getByQuery);
 
+router.post('/', controller.postEvent);
+
 module.exports = router;

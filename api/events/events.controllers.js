@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const User = require('../users/users.model');
 const Event = require('./events.model');
 
 function getAll(req, res) {
@@ -47,4 +48,10 @@ function getByQuery(req, res){
     }
 }
 
-module.exports = {getOne, getAll, getByQuery} 
+function postEvent(req, res) {
+    User.create(req.body)
+    .then(eventFound => res.send(eventFound))
+    .catch(err => res.status(500).send(err))
+}
+
+module.exports = {getOne, getAll, getByQuery, postEvent} 
