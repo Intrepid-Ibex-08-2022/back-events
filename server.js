@@ -34,7 +34,7 @@ cloudinary.config({
     secure: true
   })
 
-app.listen(process.env.PORT || 4000 , () =>{
+app.listen(process.env.PORT || 3000 , () =>{
     console.log(`El servidor esta levantado en el puerto ${process.env.PORT}`)
 });
 
