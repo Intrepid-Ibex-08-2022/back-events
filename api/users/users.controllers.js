@@ -27,10 +27,14 @@ function postUser(req, res) {
         email: req.body.email,
         pswd : req.body.pswd
     });
+    let token = jwt.sign({usr :req.body.email, psw : req.body.pswd}, process.env.SECRET);
     usr
         .save()
         .then(
-            () => res.send(usr) , 
+            () => res.send({
+                user : usr,
+                token : token
+            }) , 
             (err) => { res.status(500).send(err)}
         );
 }

@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken'),
  ObjectId = require('mongoose').Types.ObjectId,
  cloudinary = require('cloudinary').v2;
 
+
 function getAll(req, res) {
     Event.find({}, (err, found) => {
         if (!err){
@@ -51,6 +52,9 @@ function getByQuery(req, res){
 }
 
 function postEvent(req, res) {
+    cloudinary.uploader.upload('../public/')
+    .then( found => console.log(found))
+    .catch(err => res.status(400).send(err));
     Event.create(req.body)
     .then(eventFound => res.send(eventFound))
     .catch(err => res.status(500).send('error: ' + err))
