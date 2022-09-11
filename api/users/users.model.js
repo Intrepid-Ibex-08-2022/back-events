@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema({
         minlength:[6, "La contraseña debe tener un minimo de 6 caracteres"]
     },
     favorites : {
-        type: Schema.Types.ObjectId,
+        type: [Schema.Types.ObjectId],
         ref: 'event'
     }
 });

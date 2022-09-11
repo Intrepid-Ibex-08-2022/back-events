@@ -8,7 +8,7 @@ router.post('/', controller.postEvent);
 
 router.get('/event/:id', controller.getOne);
 
-router.get('/event/:id/preferred',verifyToken, controller.viewAllPreferred);
+router.get('/view/preferred',verifyToken, controller.viewAllPreferred);
 
 router.post('/event/:id/preferred',verifyToken, controller.postPrefered);
 

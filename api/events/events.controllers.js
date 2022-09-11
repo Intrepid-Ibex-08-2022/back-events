@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken'),
  Event = require('./events.model'),
  User = require('../users/users.model'),
+ ObjectId = require('mongoose').Types.ObjectId,
  cloudinary = require('cloudinary').v2;
 
 function getAll(req, res) {
@@ -63,13 +64,13 @@ function postPrefered(req, res){
         .then(() => res.send(user));
     })
     .catch(err => res.status(400).send(err));
+    
 }
 
-async function viewAllPreferred(req, res){
-    let fav = await User.find({email : req.user.usr}).populate('favorites')
+function viewAllPreferred(req, res){
+    User.find({email : req.user.usr}).populate('favorites')
     .then(userPopulated => res.send(userPopulated))
     .catch(err  => res.status(400).send(err))
-    console.log(fav);
 }
 
 module.exports = {getOne, getAll, getByQuery, postEvent, postPrefered, viewAllPreferred} 
