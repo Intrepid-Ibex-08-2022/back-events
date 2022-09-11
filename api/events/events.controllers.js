@@ -53,7 +53,7 @@ function postEvent(req, res) {
     
     console.log( req.body);
  
-    res.send('respuesta')
+    res.send(req.body)
 }
 
 
