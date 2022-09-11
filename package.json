@@ -1,5 +1,6 @@
 {
     "dependencies": {
+        "cloudinary": "^1.31.0",
         "cors": "^2.8.5",
         "cuid": "^2.1.8",
         "dotenv": "^16.0.1",

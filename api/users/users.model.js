@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose"),
+Schema = mongoose.Schema;
 
 const UserSchema = new mongoose.Schema({
     username:{
@@ -19,7 +20,10 @@ const UserSchema = new mongoose.Schema({
         required:'Es necesario una contraseña',
         minlength:[6, "La contraseña debe tener un minimo de 6 caracteres"]
     },
-    favorites : [String]
+    favorites : {
+        type: [Schema.Types.ObjectId],
+        ref: 'event'
+    }
 });
 
 const User = mongoose.model('user', UserSchema);

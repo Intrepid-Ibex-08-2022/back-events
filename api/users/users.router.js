@@ -1,7 +1,6 @@
 const router = require('express').Router(),
 controller = require('./users.controllers'),
-auth = require('../auth/authUser'),
-verifyToken = require('../middleware/verifyToken');
+auth = require('../auth/authUser');
 
 router.get('/', controller.getAll);
 

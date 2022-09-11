@@ -4,7 +4,8 @@ bodyparser = require('body-parser'),
 mongoose = require("mongoose"),
 usersRouter = require('./api/users/users.router'),
 eventsRouter = require('./api/events/events.router'),
-cors = require('cors');
+cors = require('cors'),
+cloudinary = require('cloudinary').v2;
 
 var app = express();
 
@@ -24,6 +25,13 @@ mongoose.connect(
         useUnifiedTopology: true
     }
 );
+
+cloudinary.config({ 
+    cloud_name: process.env.CLOUD_NAME, 
+    api_key: process.env.API_KEY, 
+    api_secret: process.env.API_SECRET,
+    secure: true
+  })
 
 app.listen(process.env.PORT || 8080 , () =>{
     console.log(`El servidor esta levantado en el puerto ${process.env.PORT}`)
