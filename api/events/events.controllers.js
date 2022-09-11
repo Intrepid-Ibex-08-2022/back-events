@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken'),
  ObjectId = require('mongoose').Types.ObjectId,
  cloudinary = require('cloudinary').v2;
 
+
 function getAll(req, res) {
     Event.find({}, (err, found) => {
         if (!err){
