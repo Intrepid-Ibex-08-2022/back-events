@@ -1,16 +1,17 @@
 const router = require('express').Router(),
-controller = require('./users.controllers');
+controller = require('./users.controllers'),
+auth = require('../auth/authUser');
 
 router.get('/', controller.getAll);
 
-router.get('/:id', controller.getOne);
+router.get('/:email', controller.getOne);
 
 router.post('/', controller.postUser);
 
-router.put('/:id', controller.putUser);
+router.put('/:email', controller.putUser);
 
-router.delete('/:id', controller.deleteOne);
+router.delete('/:email', controller.deleteOne);
 
-//router.delete('/delete', controller.deleteAll);
+router.post('/auth', auth);
 
 module.exports = router;

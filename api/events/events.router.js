@@ -18,12 +18,23 @@ const storage = multer.diskStorage(
 );
 const upload = multer({storage})
 
+controller = require('./events.controllers'),
+verifyToken = require('../middleware/verifyToken');
+
+
 router.get('/', controller.getAll);
+
+router.post('/', controller.postEvent);
 
 router.get('/event/:id', controller.getOne);
 
 router.post('/add/:user', upload.single('image'), controller.postEvent);
 
+router.get('/view/preferred',verifyToken, controller.viewAllPreferred);
+
+router.post('/event/:id/preferred',verifyToken, controller.postPrefered);
+
 router.get('/filter', controller.getByQuery);
+
 
 module.exports = router;

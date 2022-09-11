@@ -1,5 +1,8 @@
-const jwt = require('jsonwebtoken');
-const Event = require('./events.model');
+const jwt = require('jsonwebtoken'),
+ Event = require('./events.model'),
+ User = require('../users/users.model'),
+ ObjectId = require('mongoose').Types.ObjectId,
+ cloudinary = require('cloudinary').v2;
 
 
 function getAll(req, res) {
@@ -49,13 +52,26 @@ function getByQuery(req, res){
 }
 
 function postEvent(req, res) {
-    console.log(req.params);
-    
-    console.log( req.body);
- 
-    res.send(req.body)
+    Event.create(req.body)
+    .then(eventFound => res.send(eventFound))
+    .catch(err => res.status(500).send('error: ' + err))
 }
 
+function postPrefered(req, res){
+    User.findOne({email : req.user.usr})
+    .then(user => {
+        user.favorites.push(req.params.id);
+        user.save()
+        .then(() => res.send(user));
+    })
+    .catch(err => res.status(400).send(err));
+    
+}
 
+function viewAllPreferred(req, res){
+    User.find({email : req.user.usr}).populate('favorites')
+    .then(userPopulated => res.send(userPopulated))
+    .catch(err  => res.status(400).send(err))
+}
 
-module.exports = {getOne, getAll, getByQuery, postEvent} 
+module.exports = {getOne, getAll, getByQuery, postEvent, postPrefered, viewAllPreferred} 
