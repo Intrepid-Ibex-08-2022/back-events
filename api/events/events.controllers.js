@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken'),
  Event = require('./events.model'),
- User = require('../users/users.model');
+ User = require('../users/users.model'),
+ cloudinary = require('cloudinary').v2;
 
 function getAll(req, res) {
     Event.find({}, (err, found) => {
@@ -55,15 +56,20 @@ function postEvent(req, res) {
 }
 
 function postPrefered(req, res){
-    console.log(req.user.usr);
     User.findOne({email : req.user.usr})
     .then(user => {
         user.favorites.push(req.params.id);
-        console.log(user);
         user.save()
         .then(() => res.send(user));
     })
-    .catch(err => console.log(err))
+    .catch(err => res.status(400).send(err));
 }
 
-module.exports = {getOne, getAll, getByQuery, postEvent, postPrefered} 
+async function viewAllPreferred(req, res){
+    let fav = await User.find({email : req.user.usr}).populate('favorites')
+    .then(userPopulated => res.send(userPopulated))
+    .catch(err  => res.status(400).send(err))
+    console.log(fav);
+}
+
+module.exports = {getOne, getAll, getByQuery, postEvent, postPrefered, viewAllPreferred} 
