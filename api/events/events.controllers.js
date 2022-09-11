@@ -55,6 +55,16 @@ function getByQuery(req, res) {
       .catch((err) => console.log('Error occured, ' + err));
   }
 }
+function getByQuery(req, res) {
+  if (typeof req.query.ids !== undefined) {
+    EventsModel.find({ _id: { $in: { _id: req.query.ids } } }, { _id: 0 });
+    then(res.Event);
+    // db.inventory.find({ _id: { $in: [5, 15] } }, { _id: 0 }});
+  } else {
+    EventsModel.find();
+  }
+}
+
 function putEvent(req, res) {
   Event.findByIdAndUpdate(req.params.id, req.body, { new: true })
     .then((updated) => {
