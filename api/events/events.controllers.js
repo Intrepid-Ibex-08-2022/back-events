@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken'),
- Event = require('./events.model'),
- User = require('../users/users.model'),
- ObjectId = require('mongoose').Types.ObjectId,
- cloudinary = require('cloudinary').v2;
+Event = require('./events.model'),
+User = require('../users/users.model'),
+ObjectId = require('mongoose').Types.ObjectId,
+cloudinary = require('cloudinary').v2;
+const fs = require ('file-system');
 
 
 function getAll(req, res) {
@@ -63,13 +64,39 @@ function getByQuery(req, res){
 }
 
 function postEvent(req, res) {
-    console.log(req.body)
-    cloudinary.uploader.upload('./public')
-    .then( found => console.log(found))
-    .catch(err => res.status(400).send(err));
-    Event.create(req.body)
-    .then(eventFound => res.send(eventFound))
-    .catch(err => res.status(500).send('error: ' + err))
+    let evento;
+    fs.recurse('./public', ['*.jpg','*.png'], async function(filepath, relative, filename) {  
+        if (filename) {
+            await cloudinary.uploader.upload(`./public/${filename}`)
+                .then( found => {
+                    if(found){
+                        req.body.image = found.url;
+                        evento = {
+                            "tipo_event": req.body.tipo_event,
+                            "place": req.body.place,
+                            "image": req.body.image,
+                            "title": req.body.title,
+                            "ticket_info": req.body.ticket_info,
+                            "description": req.body.description,
+                            "date": {
+                                "start_date": req.body.start_date,
+                                "when": req.body.when
+                            },
+                            "adress": req.body.adress,
+                            "venue": {
+                                "rating": "0",
+                                "views": "0"
+                            },
+                            "map_link": req.body.map_link
+                        }
+                    }
+                }).catch(err => res.status(400).send(err));
+
+                Event.create(evento)
+                .then(eventFound => res.send(eventFound))
+                .catch(err => res.status(400).send(err));
+        }
+    });
 }
 
 function postPrefered(req, res){
@@ -86,7 +113,7 @@ function postPrefered(req, res){
 function viewAllPreferred(req, res){
     User.find({email : req.user.usr}).populate('favorites')
     .then(userPopulated => res.send(userPopulated))
-    .catch(err  => res.status(400).send(err))
+    .catch(err  => res.status(400).send(err));
 }
 
 module.exports = {getOne, getAll, getByQuery, postEvent, postPrefered, viewAllPreferred} 

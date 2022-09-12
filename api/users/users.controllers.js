@@ -40,7 +40,7 @@ function postUser(req, res) {
 }
 
 function putUser(req, res) {
-    User.findOneAndUpdate(req.params.email , req.body, {new : true})
+    User.findOneAndUpdate({email : req.params.email} , req.body, {new : true})
     .then(updated => {
         res.send(updated);
     })
