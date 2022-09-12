@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken'),
- Event = require('./events.model'),
- User = require('../users/users.model'),
- ObjectId = require('mongoose').Types.ObjectId,
- cloudinary = require('cloudinary').v2;
- const fs = require ('file-system');
+Event = require('./events.model'),
+User = require('../users/users.model'),
+ObjectId = require('mongoose').Types.ObjectId,
+cloudinary = require('cloudinary').v2;
+const fs = require ('file-system');
 
 
 function getAll(req, res) {
@@ -89,19 +89,14 @@ function postEvent(req, res) {
                             },
                             "map_link": req.body.map_link
                         }
-                        //  Event.create(evento)
-                        //      .then(eventFound => res.send(eventFound));
-                            //.catch(err => res.status(500).send('error: ' + err))
                     }
-                });
+                }).catch(err => res.status(400).send(err));
 
                 Event.create(evento)
-                  .then(eventFound => res.send(eventFound));
-                //.catch(err => res.status(400).send(err));
+                .then(eventFound => res.send(eventFound))
+                .catch(err => res.status(400).send(err));
         }
-      });
- 
-
+    });
 }
 
 function postPrefered(req, res){
@@ -118,7 +113,7 @@ function postPrefered(req, res){
 function viewAllPreferred(req, res){
     User.find({email : req.user.usr}).populate('favorites')
     .then(userPopulated => res.send(userPopulated))
-    .catch(err  => res.status(400).send(err))
+    .catch(err  => res.status(400).send(err));
 }
 
 module.exports = {getOne, getAll, getByQuery, postEvent, postPrefered, viewAllPreferred} 

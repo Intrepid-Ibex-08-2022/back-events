@@ -10,7 +10,8 @@ const EventSchema = new mongoose.Schema({
         required:'Es necesario un lugar para el evento'
     },
     image : {
-        type : String
+        type : String,
+        required: 'Es necesario una imagen para el evento'
     },
     title : {
         type : String,
