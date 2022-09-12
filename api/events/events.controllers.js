@@ -1,10 +1,25 @@
-const jwt = require('jsonwebtoken');
-const Event = require('./events.model');
+const jwt = require('jsonwebtoken'),
+ Event = require('./events.model'),
+ User = require('../users/users.model'),
+ ObjectId = require('mongoose').Types.ObjectId,
+ cloudinary = require('cloudinary').v2;
+
 
 function getAll(req, res) {
+    let paginNum = req.query.page;
     Event.find({}, (err, found) => {
         if (!err){
-            res.send(found)
+            if(paginNum){
+                let paginatedEvents = [];
+            found.forEach((event,index) => {
+                if(index >= ((paginNum * 10) - 11) && index <= ((paginNum * 10) - 1)){
+                    paginatedEvents.push(event);
+                }
+            })
+            res.send(paginatedEvents);
+            }else{
+                res.send(found);
+            }
         } else {
             throw err
         }
@@ -47,4 +62,31 @@ function getByQuery(req, res){
     }
 }
 
-module.exports = {getOne, getAll, getByQuery} 
+function postEvent(req, res) {
+    console.log(req.body)
+    cloudinary.uploader.upload('./public')
+    .then( found => console.log(found))
+    .catch(err => res.status(400).send(err));
+    Event.create(req.body)
+    .then(eventFound => res.send(eventFound))
+    .catch(err => res.status(500).send('error: ' + err))
+}
+
+function postPrefered(req, res){
+    User.findOne({email : req.user.usr})
+    .then(user => {
+        user.favorites.push(req.params.id);
+        user.save()
+        .then(() => res.send(user));
+    })
+    .catch(err => res.status(400).send(err));
+    
+}
+
+function viewAllPreferred(req, res){
+    User.find({email : req.user.usr}).populate('favorites')
+    .then(userPopulated => res.send(userPopulated))
+    .catch(err  => res.status(400).send(err))
+}
+
+module.exports = {getOne, getAll, getByQuery, postEvent, postPrefered, viewAllPreferred} 
