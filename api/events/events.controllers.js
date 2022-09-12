@@ -71,9 +71,10 @@ function postEvent(req, res) {
                 .then( found => {
                     if(found){
                         req.body.image = found.secure_url;
-                        Event.create(req.body)
-                            .then(eventFound => res.send(eventFound))
-                            .catch(err => res.status(500).send('error: ' + err))
+                        console.log(req.body)
+                        // Event.create(req.body)
+                        //     .then(eventFound => res.send(eventFound))
+                        //     .catch(err => res.status(500).send('error: ' + err))
                     }
                 })
                 .catch(err => res.status(400).send(err));
