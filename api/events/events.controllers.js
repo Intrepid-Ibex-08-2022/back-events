@@ -6,9 +6,17 @@ const jwt = require('jsonwebtoken'),
 
 
 function getAll(req, res) {
+    let paginNum = req.query.page;
     Event.find({}, (err, found) => {
         if (!err){
-            res.send(found)
+            let paginatedEvents = [];
+            found.forEach((event,index) => {
+                if(index >= ((paginNum * 10) - 11) && index <= ((paginNum * 10) - 1)){
+                    console.log(index);
+                    paginatedEvents.push(event);
+                }
+            })
+            res.send(paginatedEvents);
         } else {
             throw err
         }
