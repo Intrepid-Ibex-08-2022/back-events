@@ -64,22 +64,40 @@ function getByQuery(req, res){
 }
 
 function postEvent(req, res) {
-    
-    fs.recurse('./public', ['*.jpg','*.png'], function(filepath, relative, filename) {  
+    let evento;
+    fs.recurse('./public', ['*.jpg','*.png'], async function(filepath, relative, filename) {  
         if (filename) {
-            cloudinary.uploader.upload(`./public/${filename}`)
+            await cloudinary.uploader.upload(`./public/${filename}`)
                 .then( found => {
                     if(found){
-                        req.body.image = found.secure_url;
-                        console.log(req.body)
-                        // Event.create(req.body)
-                        //     .then(eventFound => res.send(eventFound))
-                        //     .catch(err => res.status(500).send('error: ' + err))
+                        req.body.image = found.url;
+                        evento = {
+                            "tipo_event": req.body.tipo_event,
+                            "place": req.body.place,
+                            "image": req.body.image,
+                            "title": req.body.title,
+                            "ticket_info": req.body.ticket_info,
+                            "description": req.body.description,
+                            "date": {
+                                "start_date": req.body.start_date,
+                                "when": req.body.when
+                            },
+                            "adress": req.body.adress,
+                            "venue": {
+                                "rating": "0",
+                                "views": "0"
+                            },
+                            "map_link": req.body.map_link
+                        }
+                        //  Event.create(evento)
+                        //      .then(eventFound => res.send(eventFound));
+                            //.catch(err => res.status(500).send('error: ' + err))
                     }
-                })
-                .catch(err => res.status(400).send(err));
-        } else {
-            console.log('No existen imagenes guardadas')
+                });
+
+                Event.create(evento)
+                  .then(eventFound => res.send(eventFound));
+                //.catch(err => res.status(400).send(err));
         }
       });
  
