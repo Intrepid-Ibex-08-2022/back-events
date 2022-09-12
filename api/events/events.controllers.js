@@ -64,9 +64,9 @@ function getByQuery(req, res){
 
 function postEvent(req, res) {
     console.log(req.body)
-    cloudinary.uploader.upload('./public')
-    .then( found => console.log(found))
-    .catch(err => res.status(400).send(err));
+    // cloudinary.uploader.upload('./public')
+    // .then( found => console.log(found))
+    // .catch(err => res.status(400).send(err));
     Event.create(req.body)
     .then(eventFound => res.send(eventFound))
     .catch(err => res.status(500).send('error: ' + err))

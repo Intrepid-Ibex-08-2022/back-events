@@ -1,8 +1,9 @@
-/* const multer = require('multer')
+const multer = require('multer')
 
 const storage = multer.diskStorage(
     {
         filename: function(res, file, cb){
+            console.log(file.originalname)
             const ext = file.originalname.split('.').pop()
             const filename = Date.now()
             cb(null,`${filename}.${ext}`)
@@ -16,4 +17,4 @@ const storage = multer.diskStorage(
 );
 const upload = multer({storage})
 
-module.exports = upload; */
+module.exports = upload; 
