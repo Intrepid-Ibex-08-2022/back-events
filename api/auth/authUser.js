@@ -18,7 +18,7 @@ function loginUser(req, res) {
 function authUser(req, res){
     console.log(req.user);
     if(req.user){
-        res.send(true)
+        res.send(req.user)
     }
 }
 
