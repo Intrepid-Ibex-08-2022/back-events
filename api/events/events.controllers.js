@@ -9,14 +9,17 @@ function getAll(req, res) {
     let paginNum = req.query.page;
     Event.find({}, (err, found) => {
         if (!err){
-            let paginatedEvents = [];
+            if(paginNum){
+                let paginatedEvents = [];
             found.forEach((event,index) => {
                 if(index >= ((paginNum * 10) - 11) && index <= ((paginNum * 10) - 1)){
-                    console.log(index);
                     paginatedEvents.push(event);
                 }
             })
             res.send(paginatedEvents);
+            }else{
+                res.send(found);
+            }
         } else {
             throw err
         }
