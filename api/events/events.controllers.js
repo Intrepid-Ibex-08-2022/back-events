@@ -114,17 +114,28 @@ function postEvent(req, res) {
 }
 
 function postPrefered(req, res) {
+  console.log('voy a añadir');
+  console.log(req.params.id);
   User.findOne({ email: req.user.usr })
     .then((user) => {
-      user.favorites.push(req.params.id);
+      //antes de push se deberia comprobar si esiste para no hacer el push
+      if (!user.favorites.includes(req.params.id)) {
+        user.favorites.push(req.params.id);
+      }
       user.save().then(() => res.send(user));
     })
     .catch((err) => res.status(400).send(err));
 }
 function delPrefered(req, res) {
+  console.log('voy a borrara');
+  console.log(req.params.id);
   User.findOne({ email: req.user.usr })
     .then((user) => {
-      user.favorites = user.favorites.filter((e) => e !== req.params.id);
+      console.log('Antes', user.favorites);
+      // user.favorites = user.favorites.filter((e) => !e.equals(req.params.id));
+      user.favorites = user.favorites.filter((e) => e + '' !== req.params.id);
+      console.log(user.favorites);
+
       user.save().then(() => res.send(user));
     })
     .catch((err) => res.status(400).send(err));
