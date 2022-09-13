@@ -1,10 +1,26 @@
-const jwt = require('jsonwebtoken');
-const Event = require('./events.model');
+const jwt = require('jsonwebtoken'),
+Event = require('./events.model'),
+User = require('../users/users.model'),
+ObjectId = require('mongoose').Types.ObjectId,
+cloudinary = require('cloudinary').v2;
+const fs = require ('file-system');
+
 
 function getAll(req, res) {
+    let paginNum = req.query.page;
     Event.find({}, (err, found) => {
         if (!err){
-            res.send(found)
+            if(paginNum){
+                let paginatedEvents = [];
+            found.forEach((event,index) => {
+                if(index >= ((paginNum * 10) - 11) && index <= ((paginNum * 10) - 1)){
+                    paginatedEvents.push(event);
+                }
+            })
+            res.send(paginatedEvents);
+            }else{
+                res.send(found);
+            }
         } else {
             throw err
         }
@@ -47,4 +63,57 @@ function getByQuery(req, res){
     }
 }
 
-module.exports = {getOne, getAll, getByQuery} 
+function postEvent(req, res) {
+    let evento;
+    fs.recurse('./public', ['*.jpg','*.png'], async function(filepath, relative, filename) {  
+        if (filename) {
+            await cloudinary.uploader.upload(`./public/${filename}`)
+                .then( found => {
+                    if(found){
+                        req.body.image = found.url;
+                        evento = {
+                            "tipo_event": req.body.tipo_event,
+                            "place": req.body.place,
+                            "image": req.body.image,
+                            "title": req.body.title,
+                            "ticket_info": req.body.ticket_info,
+                            "description": req.body.description,
+                            "date": {
+                                "start_date": req.body.start_date,
+                                "when": req.body.when
+                            },
+                            "adress": req.body.adress,
+                            "venue": {
+                                "rating": "0",
+                                "views": "0"
+                            },
+                            "map_link": req.body.map_link
+                        }
+                    }
+                }).catch(err => res.status(400).send(err));
+
+                Event.create(evento)
+                .then(eventFound => res.send(eventFound))
+                .catch(err => res.status(400).send(err));
+        }
+    });
+}
+
+function postPrefered(req, res){
+    User.findOne({email : req.user.usr})
+    .then(user => {
+        user.favorites.push(req.params.id);
+        user.save()
+        .then(() => res.send(user));
+    })
+    .catch(err => res.status(400).send(err));
+    
+}
+
+function viewAllPreferred(req, res){
+    User.find({email : req.user.usr}).populate('favorites')
+    .then(userPopulated => res.send(userPopulated))
+    .catch(err  => res.status(400).send(err));
+}
+
+module.exports = {getOne, getAll, getByQuery, postEvent, postPrefered, viewAllPreferred} 

@@ -1,3 +1,3 @@
 module.exports = {
-    master : "pruebadeclaveparaeventos"
+    master : process.env.SECRET
 }
