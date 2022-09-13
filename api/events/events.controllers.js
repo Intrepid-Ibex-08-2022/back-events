@@ -101,14 +101,13 @@ function postEvent(req, res) {
                 },
                 map_link: req.body.map_link,
               };
-              //  Event.create(evento)
-              //      .then(eventFound => res.send(eventFound));
-              //.catch(err => res.status(500).send('error: ' + err))
             }
-          });
+          })
+          .catch((err) => res.status(400).send(err));
 
-        Event.create(evento).then((eventFound) => res.send(eventFound));
-        //.catch(err => res.status(400).send(err));
+        Event.create(evento)
+          .then((eventFound) => res.send(eventFound))
+          .catch((err) => res.status(400).send(err));
       }
     },
   );
