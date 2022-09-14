@@ -116,6 +116,7 @@ function postEvent(req, res) {
 function postPrefered(req, res) {
   User.findOne({ email: req.user.usr })
     .then((user) => {
+      //coment prueb
       //antes de push se deberia comprobar si esiste para no hacer el push
       if (!user.favorites.includes(req.params.id)) {
         user.favorites.push(req.params.id);
