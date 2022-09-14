@@ -20,7 +20,7 @@ function authUser(req, res){
     if(req.user){
         res.send({
             ok : true,
-            user : req.user.usr
+            user : req.user
         })
     }
 }
