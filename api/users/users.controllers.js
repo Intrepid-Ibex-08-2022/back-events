@@ -27,7 +27,7 @@ function postUser(req, res) {
         email: req.body.email,
         pswd : req.body.pswd
     });
-    let token = jwt.sign({usr :userFound.email, mail : userFound.email, fav : userFound.favorites}, process.env.SECRET);
+    let token = jwt.sign({usr :userFound.username, mail : userFound.email, fav : userFound.favorites}, process.env.SECRET);
     usr
         .save()
         .then(
