@@ -12,11 +12,15 @@ function getAll(req, res) {
       if (paginNum) {
         let paginatedEvents = [];
         found.forEach((event, index) => {
-          if (index >= paginNum * 10 - 11 && index <= paginNum * 10 - 1) {
+          if (index >= paginNum * 10 - 10 && index <= paginNum * 10 - 1) {
             paginatedEvents.push(event);
           }
         });
+        if (paginatedEvents.length === 0){
+          res.send('no se encuentran mas eventos');
+        }else {
         res.send(paginatedEvents);
+        }
       } else {
         res.send(found);
       }
@@ -116,6 +120,7 @@ function postEvent(req, res) {
 function postPrefered(req, res) {
   User.findOne({ email: req.user.mail })
     .then((user) => {
+      //coment prueb
       //antes de push se deberia comprobar si esiste para no hacer el push
       if (!user.favorites.includes(req.params.id)) {
         user.favorites.push(req.params.id);
@@ -138,7 +143,7 @@ function delPrefered(req, res) {
 function viewAllPreferred(req, res) {
   User.find({ email: req.user.mail })
     .populate('favorites')
-    .then((userPopulated) => res.send(userPopulated))
+    .then((userPopulated) => res.send(userPopulated[0]))
     .catch((err) => res.status(400).send(err));
 }
 

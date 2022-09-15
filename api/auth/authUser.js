@@ -7,7 +7,7 @@ function loginUser(req, res) {
             let token = jwt.sign({usr :userFound.username, mail : userFound.email, fav : userFound.favorites}, process.env.SECRET);
             res.send({
                 user : {
-                    usr :userFound.email, mail : userFound.email, fav : userFound.favorites
+                    usr :userFound.username, mail : userFound.email, fav : userFound.favorites
                 },
                 token : token
             })
