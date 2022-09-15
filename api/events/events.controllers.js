@@ -16,8 +16,11 @@ function getAll(req, res) {
             paginatedEvents.push(event);
           }
         });
+        if (paginatedEvents.length === 0){
+          res.send('no se encuentran mas eventos');
+        }else {
         res.send(paginatedEvents);
-        console.log(paginatedEvents.length);
+        }
       } else {
         res.send(found);
       }
