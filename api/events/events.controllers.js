@@ -139,7 +139,7 @@ function delPrefered(req, res) {
 function viewAllPreferred(req, res) {
   User.find({ email: req.user.mail })
     .populate('favorites')
-    .then((userPopulated) => res.send(userPopulated))
+    .then((userPopulated) => res.send(userPopulated[0]))
     .catch((err) => res.status(400).send(err));
 }
 
