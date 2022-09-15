@@ -114,7 +114,7 @@ function postEvent(req, res) {
 }
 
 function postPrefered(req, res) {
-  User.findOne({ email: req.user.usr })
+  User.findOne({ email: req.user.mail })
     .then((user) => {
       //coment prueb
       //antes de push se deberia comprobar si esiste para no hacer el push
@@ -126,7 +126,7 @@ function postPrefered(req, res) {
     .catch((err) => res.status(400).send(err));
 }
 function delPrefered(req, res) {
-  User.findOne({ email: req.user.usr })
+  User.findOne({ email: req.user.mail })
     .then((user) => {
       // user.favorites = user.favorites.filter((e) => !e.equals(req.params.id));
       user.favorites = user.favorites.filter((e) => e + '' !== req.params.id);
@@ -137,7 +137,7 @@ function delPrefered(req, res) {
 }
 
 function viewAllPreferred(req, res) {
-  User.find({ email: req.user.usr })
+  User.find({ email: req.user.mail })
     .populate('favorites')
     .then((userPopulated) => res.send(userPopulated))
     .catch((err) => res.status(400).send(err));

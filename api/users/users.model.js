@@ -22,7 +22,8 @@ const UserSchema = new mongoose.Schema({
     },
     favorites : {
         type: [Schema.Types.ObjectId],
-        ref: 'event'
+        ref: 'event',
+        
     }
 });
 
