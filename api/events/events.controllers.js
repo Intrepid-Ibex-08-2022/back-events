@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken'),
   User = require('../users/users.model'),
   ObjectId = require('mongoose').Types.ObjectId,
   cloudinary = require('cloudinary').v2;
-const fs = require('file-system');
+const fs = require('fs-extra');
 
 function getAll(req, res) {
   let paginNum = req.query.page;
