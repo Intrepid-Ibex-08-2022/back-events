@@ -1,13 +1,15 @@
 const jwt = require('jsonwebtoken');
 const User = require('../users/users.model');
 
-function loginUser(req, res) {
-    User.findOne({email : req.body.email, password: req.body.pswd })
-    .then( userFound =>  {
-            let token = jwt.sign({usr :userFound.username, mail : userFound.email, fav : userFound.favorites}, process.env.SECRET);
+async function loginUser(req, res) {
+    let passwordHash = await jwt.sign({pswd : req.body.pswd}, process.env.SECRET);
+    req.body.pswd = passwordHash;
+    await User.findOne({email : req.body.email}).exec()
+    .then( response =>  {
+            let token = jwt.sign({username :response.username, email : response.email, rol : response.rol}, process.env.SECRET);
             res.send({
                 user : {
-                    usr :userFound.username, email : userFound.email, favorites : userFound.favorites
+                    username :response.username, email : response.email, favorites : response.favorites, 
                 },
                 token : token
             })

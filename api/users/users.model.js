@@ -20,6 +20,10 @@ const UserSchema = new mongoose.Schema({
         required:'Es necesario una contraseña',
         minlength:[6, "La contraseña debe tener un minimo de 6 caracteres"]
     },
+    rol: {
+        type: [Schema.Types.ObjectId],
+        ref: 'rol',
+    },
     favorites : {
         type: [Schema.Types.ObjectId],
         ref: 'event',

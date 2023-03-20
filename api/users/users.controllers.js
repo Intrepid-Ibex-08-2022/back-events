@@ -11,46 +11,72 @@ function getAll(req, res) {
     }).clone().catch(err => res.status(500).send(err));
 }
 
-function getOne(req, res) {
-    User.findOne({email : req.params.email} ,(err, found) => {
-        if (!err) {
-            res.send(found);
-        } else {
-            throw err
-        }
-    }).clone().catch(err => res.status(500).send(err));
+async function getOne(req, res) {
+    await User.findOne({email : req.body.email}).exec()
+    .then( response =>  {
+        res.send(response)
+    })
+    .catch(err => res.status(400).send(err));
 }
 
 function postUser(req, res) {
     const usr = new User({
         username: req.body.username,
-        email: req.body.email,
-        pswd : req.body.pswd
+        email   : req.body.email,
+        pswd    : req.body.pswd,
+        rol     : req.body.rol,
     });
-    let token = jwt.sign({usr :userFound.username, mail : userFound.email, fav : userFound.favorites}, process.env.SECRET);
+    let token = jwt.sign({username :usr.username, email : usr.email, rol: usr.rol}, process.env.SECRET);
+    let passwordHash = jwt.sign({pswd : usr.pswd}, process.env.SECRET);
+    usr.pswd = passwordHash;
     usr
         .save()
         .then(
             () => res.send({
-                user : usr,
+                user : 
+                {
+                    username :usr.username, email : usr.email, favorites : [{}]
+
+                },
                 token : token
-            }) , 
-            (err) => { res.status(500).send(err)}
-        );
+            })
+        )
+        .catch(err => res.status(500).send(err))
 }
 
-function putUser(req, res) {
-    User.findOneAndUpdate({email : req.params.email} , req.body, {new : true})
-    .then(updated => {
-        res.send(updated);
-    })
-    .catch(err => res.status(500).send(err))
+async function putUser(req, res) {
+    let user = await User.findOne({email : req.body.email}).exec()
+    if(user){
+        await User.findOneAndUpdate(
+            {_id: user._id},
+            {
+                username  : req.body.username,
+                email     : req.body.email,
+                pswd      : req.body.pswd,
+                rol       : req.body.rol,
+                favorites : req.body.favorites
+            })
+        .then(() => {
+            res.send("Usuario actualizado");
+        })
+        .catch(err => res.status(500).send(err))
+    }else {
+        res.status(400).send({error : "No existe un usuario con ese email"})
+    }
+
 }
 
-function deleteOne(req, res) {
-    User.findOneAndDelete({email : req.params.email} )
-    .then( del => res.send({}))
-    .catch(err => res.status(500).send(err))
+async function deleteOne(req, res) {
+    let user = await User.findOne({email : req.body.email}).exec()
+    if(user){
+
+        await User.findOneAndRemove({_id: user._id} ).exec()
+        .then( () => res.send({deleted : "Usuario eliminado"}))
+        .catch(err => res.status(500).send(err))
+
+    } else {
+        res.status(400).send({error : "No existe un usuario con ese email"})
+    }
 }
 
 
