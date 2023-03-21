@@ -12,7 +12,7 @@ function getAll(req, res) {
       if (paginNum) {
         let paginatedEvents = [];
         found.forEach((event, index) => {
-          if (index >= paginNum * 10 - 11 && index <= paginNum * 10 - 1) {
+          if (index >= paginNum * 10 - 11 && index <= paginNum * 12 - 1) {
             paginatedEvents.push(event);
           }
         });
