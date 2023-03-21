@@ -28,14 +28,14 @@ function getAll(req, res) {
     .catch((err) => console.log('Error occured, ' + err));
 }
 
-function getOne(req, res) {
-  Event.findOne({ _id: req.params.id }, (err, found) => {
+async function getOne(req, res) {
+  await Event.findOne({ _id: req.params.id }, (err, found) => {
     if (!err) {
       res.send(found);
     } else {
       throw err;
     }
-  })
+  }).exec()
     .clone()
     .catch((err) => console.log('Error occured, ' + err));
 }

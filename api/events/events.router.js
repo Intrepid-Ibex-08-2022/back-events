@@ -5,7 +5,7 @@ upload = require('../middleware/uploader');
 
 router.get('/', controller.getAll);
 
-router.post('/', upload.single('image'), controller.postEvent);
+router.post('/',verifyToken, upload.single('image'), controller.postEvent);
 
 router.get('/event/:id', controller.getOne);
 
