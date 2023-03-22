@@ -19,6 +19,7 @@ app.use(bodyparser.urlencoded({extended : true}));
 app.use(bodyparser.json());
 router.use('/events',eventsRouter);
 router.use('/users',usersRouter);
+router.use('/roles',usersRouter);
 
 mongoose.connect(
     process.env.URL_DB, 

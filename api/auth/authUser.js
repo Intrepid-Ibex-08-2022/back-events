@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../users/users.model');
+const Rol = require('../roles/roles.model');
 
 async function loginUser(req, res) {
     let passwordHash = await jwt.sign({pswd : req.body.pswd}, process.env.SECRET);
@@ -18,12 +19,22 @@ async function loginUser(req, res) {
         
 }
 
-function authUser(req, res){
+async function authUser(req, res){
     if(req.user){
-        res.send({
-            ok : true,
-            user : req.user
-        })
+        let response = await Rol.findOne({_id: req.user.rol[0]}).exec();
+        if(response.rol === 'sa' || response.rol === 'admin'){
+             res.send({
+                ok : true,
+                user : req.user,
+                admin : true
+            })
+        }else{
+            res.send({
+                ok : true,
+                user : req.user,
+                admin : false
+            })
+        }
     }
 }
 
