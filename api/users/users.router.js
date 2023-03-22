@@ -5,7 +5,7 @@ verifyToken = require('../middleware/verifyToken');
 
 router.get('/', verifyToken, controller.getAll);
 
-router.get('/oneUser', verifyToken, controller.getOne);
+router.get('/:email',  controller.getOne);
 
 router.post('/', controller.postUser);
 
