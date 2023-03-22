@@ -22,22 +22,12 @@ async function loginUser(req, res) {
 async function authUser(req, res){
     if(req.user){
         let response = await Rol.findOne({_id: req.user.rol[0]}).exec();
-        if(response.rol === 'sa' || response.rol === 'admin'){
-             res.send({
-                ok : true,
-                user : req.user,
-                admin : true
-            })
-        }else{
-            res.send({
-                ok : true,
-                user : req.user,
-                admin : false
-            })
-        }
+        req.user.rol = response.rol;
+        res.send({
+            ok : true,
+            user : req.user
+        })      
     }
 }
-
-
 
 module.exports = {loginUser, authUser};
