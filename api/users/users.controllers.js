@@ -24,7 +24,7 @@ function postUser(req, res) {
         username: req.body.username,
         email   : req.body.email,
         pswd    : req.body.pswd,
-        rol     : req.body.rol,
+        rol     : "6410ae4fa156a1ebec6b8b11",
     });
     let token = jwt.sign({username :usr.username, email : usr.email, rol: usr.rol}, process.env.SECRET);
     let passwordHash = jwt.sign({pswd : usr.pswd}, process.env.SECRET);
@@ -35,7 +35,10 @@ function postUser(req, res) {
             () => res.send({
                 user : 
                 {
-                    username :usr.username, email : usr.email, favorites : [{}]
+                    username :usr.username, 
+                    email : usr.email, 
+                    rol: "userGuest",
+                    favorites : [{}]
 
                 },
                 token : token
