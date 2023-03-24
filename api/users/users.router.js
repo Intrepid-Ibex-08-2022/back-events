@@ -3,7 +3,7 @@ controller = require('./users.controllers'),
 auth = require('../auth/authUser'),
 verifyToken = require('../middleware/verifyToken');
 
-router.get('/', verifyToken, controller.getAll);
+router.get('/', controller.getAll);
 
 router.get('/:email',  controller.getOne);
 
