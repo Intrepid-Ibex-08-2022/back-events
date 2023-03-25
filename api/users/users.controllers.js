@@ -12,7 +12,6 @@ function getAll(req, res) {
 }
 
 async function getOne(req, res) {
-    console.log('dasdasdasd'+req)
     let email = await User.findOne({email : req.query.email}).exec()
     console.log(email)
     await User.findOne({email : req.params.email}).exec()

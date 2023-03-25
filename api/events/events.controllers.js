@@ -29,15 +29,14 @@ function getAll(req, res) {
 }
 
 async function getOne(req, res) {
-  await Event.findOne({ _id: req.params.id }, (err, found) => {
-    if (!err) {
-      res.send(found);
-    } else {
-      throw err;
-    }
-  }).exec()
-    .clone()
-    .catch((err) => console.log('Error occured, ' + err));
+  console.log(req.query.event);
+  await Event.findOne({ _id: req.query.event }).exec()
+  .then((response) => {
+    console.log(response);
+    res.send(response);
+  });
+
+
 }
 
 function getByQuery(req, res) {
