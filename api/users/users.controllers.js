@@ -62,7 +62,7 @@ async function putUser(req, res) {
                 favorites : req.body.favorites
             })
         .then(() => {
-            res.send("Usuario actualizado");
+            res.send({ok: true});
         })
         .catch(err => res.status(500).send(err))
     }else {
