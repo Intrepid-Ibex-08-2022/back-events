@@ -11,14 +11,13 @@ function getAll(req, res) {
     }).clone().catch(err => res.status(500).send(err));
 }
 
-function getOne(req, res) {
-    Rol.findOne({rol : req.params.rol} ,(err, found) => {
-        if (!err) {
-            res.send(found);
-        } else {
-            throw err
-        }
-    }).clone().catch(err => res.status(500).send(err));
+async function getOne(req, res) {
+    console.log(req.query.rol);
+    await Rol.findOne({ _id: req.query.rol}).exec()
+    .then((response) => {
+      console.log(response);
+      res.send(response);
+    });
 }
 
 function postRol(req, res) {
