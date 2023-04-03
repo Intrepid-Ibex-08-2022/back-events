@@ -1,5 +1,5 @@
 const router = require('express').Router(),
-controller = require('./users.controllers'),
+controller = require('./roles.controllers'),
 auth = require('../auth/authUser'),
 verifyToken = require('../middleware/verifyToken');
 
@@ -11,6 +11,5 @@ router.post('/', verifyToken, controller.postRol);
 
 router.put('/:rol', verifyToken, controller.putRol);
 
-router.delete('/:rol', verifyToken, controller.deleteRol);
 
 module.exports = router;

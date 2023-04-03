@@ -5,6 +5,7 @@ bodyparser = require('body-parser');
 mongoose = require("mongoose");
 usersRouter = require('../api/users/users.router');
 eventsRouter = require('../api/events/events.router');
+rolsRouter = require('../api/roles/roles.router');
 cors = require('cors');
 cloudinary = require('cloudinary').v2;
 
@@ -19,7 +20,7 @@ app.use(bodyparser.urlencoded({extended : true}));
 app.use(bodyparser.json());
 router.use('/events',eventsRouter);
 router.use('/users',usersRouter);
-router.use('/roles',usersRouter);
+router.use('/roles',rolsRouter);
 
 mongoose.connect(
     process.env.URL_DB, 
